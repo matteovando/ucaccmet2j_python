@@ -37,7 +37,7 @@ for i in range(len(weather_precipitation)):
                 weather_dictionary_monthly[specific_month] = precipitation_that_month
 
 #TRANSFORM DICTIONARY TO LIST#
-weather_list_monthly = list(weather_dictionary_monthly.items())
+weather_list_monthly = list(weather_dictionary_monthly.values())
 
 
 # TOTAL YEARLY PER LOCATION (not just Seattle) #
@@ -52,8 +52,18 @@ for i in range(len(weather_precipitation)):
             
             total_prep_state[singstate] += weather_precipitation[i]["value"]
 
+# RELATIVE PRECIPITATION #
+relative_prec = []
 
-relative_prec = [float(each_month) / float(total_prep_state[Seattle_code]) for each_month in weather_list_monthly]
+print(weather_list_monthly)
+#print(total_prep_state[Seattle_code])
+
+for each_month in weather_list_monthly:
+    relative_prec.append(each_month/total_prep_state[Seattle_code]* 100)
+        
+
+
+
 
 
 
