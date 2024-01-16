@@ -27,19 +27,40 @@ weather_dictionary_monthly = {}
 
 #total_prep_Seattle is total precipitation that year and precipitation_that_month is precipitation for every month#
 
-for i in range(len(weather_precipitation)):
-    if weather_precipitation[i]["station"] == Seattle_code:
-        total_prep_Seattle += weather_precipitation[i]["value"]
+#for i in range(len(weather_precipitation)):
+    #if weather_precipitation[i]["station"] == Seattle_code:
+        #total_prep_Seattle += weather_precipitation[i]["value"]
         
-        for specific_month in different_months:
-            if specific_month in weather_precipitation[i]["date"]:
-                precipitation_that_month += weather_precipitation[i]["value"]
-                weather_dictionary_monthly[specific_month] = precipitation_that_month
+        #for specific_month in different_months:
+            #if specific_month in weather_precipitation[i]["date"]:
+                #precipitation_that_month += weather_precipitation[i]["value"]
+                #weather_dictionary_monthly[specific_month] = precipitation_that_month
+
+#TRANSFORM DICTIONARY TO LIST#
+#weather_list_monthly = list(weather_dictionary_monthly.values())
+
+# now make it general!!! #
+
+for i in range(len(weather_precipitation)):
+    for code in state_codes:
+        if weather_precipitation[i]["station"] == code:
+            if code not in weather_dictionary_monthly:
+                weather_dictionary_monthly[code] = {}
+                
+            total_prep_state = weather_dictionary_monthly[code].get(f'total_prepecipitation({code})', 0)
+            total_prep_state += weather_precipitation[i]["value"]           
+            weather_dictionary_monthly[code][f'total_prepecipitation({code})'] = total_prep_state
+        
+            for specific_month in different_months:
+                if specific_month in weather_precipitation[i]["date"]:
+                    if specific_month not in weather_dictionary_monthly[code]:
+                        weather_dictionary_monthly[code][specific_month] = 0
+
+                    precipitation_that_month = weather_dictionary_monthly[code][specific_month]
+                    precipitation_that_month += weather_precipitation[i]["value"]
+                    weather_dictionary_monthly[code][specific_month] = precipitation_that_month
 
 print(weather_dictionary_monthly)
-#TRANSFORM DICTIONARY TO LIST#
-weather_list_monthly = list(weather_dictionary_monthly.values())
-
 
 # TOTAL YEARLY PER LOCATION (not just Seattle) #
 total_prep_state = {}
@@ -52,6 +73,13 @@ for i in range(len(weather_precipitation)):
                 total_prep_state[singstate] = 0            
             
             total_prep_state[singstate] += weather_precipitation[i]["value"]
+
+# now make it general!!! #
+
+
+
+
+
 
 # RELATIVE PRECIPITATION #
 relative_prec = []
