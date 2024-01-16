@@ -36,6 +36,7 @@ for i in range(len(weather_precipitation)):
                 precipitation_that_month += weather_precipitation[i]["value"]
                 weather_dictionary_monthly[specific_month] = precipitation_that_month
 
+print(weather_dictionary_monthly)
 #TRANSFORM DICTIONARY TO LIST#
 weather_list_monthly = list(weather_dictionary_monthly.values())
 
@@ -55,17 +56,9 @@ for i in range(len(weather_precipitation)):
 # RELATIVE PRECIPITATION #
 relative_prec = []
 
-print(weather_list_monthly)
-#print(total_prep_state[Seattle_code])
-
 for each_month in weather_list_monthly:
     relative_prec.append(each_month/total_prep_state[Seattle_code]* 100)
         
-
-
-
-
-
 
 #CREATE JSON FILE#
 correct_weather_dictionary = {}
